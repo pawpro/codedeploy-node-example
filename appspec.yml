@@ -1,0 +1,33 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/app
+permissions:
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    type:
+      - directory
+      - file
+hooks:
+  BeforeInstall:
+    - location: bin/pre_install.sh
+      timeout: 120
+      runas: root
+  AfterInstall:
+    - location: bin/post_install.sh
+      timeout: 120
+      runas: ubuntu
+  ApplicationStart:
+    - location: bin/start.sh
+      timeout: 30
+      runas: ubuntu
+  ApplicationStop:
+    - location: bin/stop.sh
+      timeout: 10
+      runas: ubuntu
+  ValidateService:
+    - location: bin/validate.sh
+      timeout: 60
+      runas: ubuntu
